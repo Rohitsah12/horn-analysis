@@ -1,0 +1,49 @@
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.python-version
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+
+# ---- Node ----
+node_modules/
+dist/
+build/
+.next/
+*.log
+npm-debug.log*
+
+# ---- Environment / secrets ----
+.env
+.env.local
+.env.*.local
+
+# ---- ML artifacts ----
+*.pkl
+*.h5
+*.pt
+*.onnx
+ml-service/models/*.pkl
+ml-service/models/*.joblib
+
+# ---- Datasets (too big for git) ----
+ml-service/data/melaudis/
+ml-service/data/urbansound8k/
+ml-service/data/raw/
+*.wav
+*.mp3
+*.flac
+!ml-service/data/.gitkeep
+
+# ---- IDE / OS ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# ---- Docker volumes ----
+docker/volumes/
