@@ -34,6 +34,8 @@ ml-service/models/*.joblib
 ml-service/data/melaudis/
 ml-service/data/urbansound8k/
 ml-service/data/raw/
+ml-service/data/features/
+ml-service/data/*.log
 *.wav
 *.mp3
 *.flac
