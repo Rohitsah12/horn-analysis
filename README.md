@@ -55,8 +55,8 @@ horn-analysis/
 | 2 | Add Kafka pipeline (Python → Node) | ✅ Day 3 — full Python→Kafka→Node loop, offset-resume verified |
 | 3 | Add MongoDB + Redis storage | ✅ Day 4 — consumer writes Mongo (history) + Redis (live state) |
 | 4 | REST APIs + Socket.IO | ✅ Day 5 — Express REST + Socket.IO live push, verified |
-| 5 | React dashboard (live feed, heatmap, charts) | ⏳ |
-| 6 | Insights, Horn Discipline Score, demo polish | ⏳ |
+| 5 | React dashboard (live feed, heatmap, charts) | ✅ Day 6 — React+Vite live map, charts, feed via Socket.IO |
+| 6 | Insights, Horn Discipline Score, demo polish | ✅ Day 7 — HDS per site + /api/insights + dashboard panel |
 
 **Target completion:** June 1, 2026.
 

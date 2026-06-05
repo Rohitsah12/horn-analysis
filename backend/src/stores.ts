@@ -97,6 +97,45 @@ export async function getHistory(
     .toArray();
 }
 
+/**
+ * Phase 6: the Horn Discipline Score (Lesson 12), computed from the durable
+ * MongoDB history. HDS = 100 * e^(-horns / K): 100 = silent/disciplined,
+ * lower = chronic honking. K is the sensitivity knob.
+ *
+ * NOTE: this scores horn VOLUME. A production version would normalize by the
+ * real time window and traffic density (horns/hour/vehicle), not raw count.
+ */
+export const HDS_K = 15;
+export function disciplineScore(horns: number): number {
+  return Math.round(100 * Math.exp(-horns / HDS_K));
+}
+
+export async function getInsights(): Promise<{
+  cityScore: number;
+  sites: { site: string; horns: number; avgConfidence: number; score: number }[];
+}> {
+  const agg = await events
+    .aggregate<{ _id: string; horns: number; avgConf: number }>([
+      { $group: { _id: "$location", horns: { $sum: 1 }, avgConf: { $avg: "$confidence" } } },
+    ])
+    .toArray();
+
+  const sites = agg
+    .map((s) => ({
+      site: s._id,
+      horns: s.horns,
+      avgConfidence: Math.round(s.avgConf * 1000) / 1000,
+      score: disciplineScore(s.horns),
+    }))
+    .sort((a, b) => a.score - b.score); // worst (lowest) first
+
+  const cityScore = sites.length
+    ? Math.round(sites.reduce((sum, s) => sum + s.score, 0) / sites.length)
+    : 100;
+
+  return { cityScore, sites };
+}
+
 export async function closeStores() {
   await mongo?.close();
   await redis?.quit();

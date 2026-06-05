@@ -25,6 +25,7 @@ import {
   getRecent,
   getStats,
   getHistory,
+  getInsights,
   closeStores,
 } from "./stores.ts";
 
@@ -50,6 +51,10 @@ app.get("/api/history", async (req, res) => {
       limit: Number(req.query.limit) || 100,
     })
   );
+});
+// Phase 6: policy analytics over the durable Mongo history.
+app.get("/api/insights", async (_req, res) => {
+  res.json(await getInsights());
 });
 
 // ---- Socket.IO (the "push" live stream) ----

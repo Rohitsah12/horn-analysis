@@ -64,3 +64,30 @@ main {
   from { background: rgba(255, 59, 59, 0.35); }
   to { background: transparent; }
 }
+
+/* ---- Horn Discipline Score ---- */
+.insights .cityscore {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.insights .cityscore .num { font-size: 44px; font-weight: 700; line-height: 1; }
+.insights .cityscore .lbl { font-size: 12px; color: #8a90a0; }
+.insights .ranking { list-style: none; margin: 0; padding: 0; }
+.insights .ranking li {
+  display: grid;
+  grid-template-columns: 72px 1fr 32px 36px;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0;
+  font-size: 12px;
+}
+.insights .site { color: #cfd3dc; }
+.insights .bar { background: #23262f; border-radius: 4px; height: 8px; overflow: hidden; }
+.insights .fill { display: block; height: 100%; }
+.insights .score { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
+.insights .n { text-align: right; color: #777; }
+.good { color: #36d399; } .fill.good { background: #36d399; }
+.warn { color: #fbbd23; } .fill.warn { background: #fbbd23; }
+.bad  { color: #ff3b3b; } .fill.bad  { background: #ff3b3b; }

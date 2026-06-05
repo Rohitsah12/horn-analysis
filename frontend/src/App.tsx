@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 import { fetchRecent, fetchStats, socket } from "./api.ts";
 import { HornMap } from "./components/HornMap.tsx";
+import { InsightsPanel } from "./components/InsightsPanel.tsx";
 import { LiveFeed } from "./components/LiveFeed.tsx";
 import { StatsCharts } from "./components/StatsCharts.tsx";
 import type { HornEvent, Stats } from "./types.ts";
@@ -52,6 +53,7 @@ export default function App() {
       <main>
         <HornMap events={events} />
         <div className="side">
+          <InsightsPanel stats={stats} />
           <StatsCharts stats={stats} events={events} />
           <LiveFeed events={events} />
         </div>
