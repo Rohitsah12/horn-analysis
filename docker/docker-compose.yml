@@ -1,60 +1,76 @@
 # Infrastructure for the Horn Analysis project.
-# Services are commented out by phase — uncomment as you reach each phase.
+# Services are enabled by phase — uncomment as you reach each phase.
 #
-# Phase 2: Kafka + Zookeeper
-# Phase 3: Redis + MongoDB
+# Phase 2: Kafka + Zookeeper   <-- ENABLED
+# Phase 3: Redis + MongoDB     <-- still commented
 #
-# Usage:  docker compose up -d        (start all enabled services)
-#         docker compose down         (stop)
+# Usage (run from the docker/ folder):
+#         docker compose up -d        (start enabled services in background)
 #         docker compose ps           (status)
+#         docker compose logs -f kafka (follow a service's logs)
+#         docker compose down         (stop)
 
 services:
   # ============================================================
   # PHASE 2 — Kafka message broker
+  # ------------------------------------------------------------
+  # Zookeeper coordinates the Kafka cluster (leader election, which broker
+  # owns which partition, etc). Classic Kafka needs it; newer "KRaft" mode
+  # drops it, but we use the Zookeeper setup to match the project scaffold.
+  # Pinned to 7.5.0 because those images are already cached locally.
   # ============================================================
-  # zookeeper:
-  #   image: confluentinc/cp-zookeeper:7.6.0
-  #   container_name: horn-zookeeper
-  #   environment:
-  #     ZOOKEEPER_CLIENT_PORT: 2181
-  #     ZOOKEEPER_TICK_TIME: 2000
-  #   ports:
-  #     - "2181:2181"
-  #
-  # kafka:
-  #   image: confluentinc/cp-kafka:7.6.0
-  #   container_name: horn-kafka
-  #   depends_on:
-  #     - zookeeper
-  #   ports:
-  #     - "9092:9092"
-  #   environment:
-  #     KAFKA_BROKER_ID: 1
-  #     KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-  #     KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
-  #     KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+  zookeeper:
+    image: confluentinc/cp-zookeeper:7.5.0
+    container_name: horn-zookeeper
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181   # port Kafka uses to reach Zookeeper
+      ZOOKEEPER_TICK_TIME: 2000     # heartbeat unit (ms)
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: confluentinc/cp-kafka:7.5.0
+    container_name: horn-kafka
+    depends_on:
+      - zookeeper
+    ports:
+      - "9092:9092"                 # host apps (our Python/Node) connect here
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      # LISTENERS = where the broker actually binds inside the container.
+      KAFKA_LISTENERS: PLAINTEXT://0.0.0.0:9092
+      # ADVERTISED_LISTENERS = the address the broker tells clients to use.
+      # localhost:9092 works because we map the port to the host.
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092
+      # Single-broker dev cluster -> only one copy of internal topics.
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+      # Let the broker create a topic on first use (handy while learning).
+      KAFKA_AUTO_CREATE_TOPICS_ENABLE: "true"
 
   # ============================================================
-  # PHASE 3 — Storage layer
+  # PHASE 3 — Storage layer   <-- ENABLED
+  # Redis = fast in-memory live state. MongoDB = durable history.
+  # Named volumes persist data across `docker compose down`/`up`.
   # ============================================================
-  # redis:
-  #   image: redis:7-alpine
-  #   container_name: horn-redis
-  #   ports:
-  #     - "6379:6379"
-  #   volumes:
-  #     - redis-data:/data
-  #
-  # mongodb:
-  #   image: mongo:7
-  #   container_name: horn-mongo
-  #   ports:
-  #     - "27017:27017"
-  #   volumes:
-  #     - mongo-data:/data/db
-  #   environment:
-  #     MONGO_INITDB_DATABASE: horn_analysis
+  redis:
+    image: redis:7-alpine
+    container_name: horn-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
 
-# volumes:
-#   redis-data:
-#   mongo-data:
+  mongodb:
+    image: mongo:7
+    container_name: horn-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: horn_analysis
+
+volumes:
+  redis-data:
+  mongo-data:

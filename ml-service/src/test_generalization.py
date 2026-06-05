@@ -31,7 +31,7 @@ ROOT = Path("data/melaudis/27115870")
 clips = (sorted(ROOT.glob("Final_Veh/*/*.wav"))[:N_SAMPLE // 2]
          + sorted(ROOT.glob("_BG_Final/*.wav"))[:N_SAMPLE // 2])
 
-X = np.array([fingerprint_from_audio(*librosa.load(p, sr=None, mono=False))
+X = np.array([fingerprint_from_audio(*librosa.load(p, sr=None, mono=True))
               for p in clips])
 prob = model.predict_proba(X)[:, 1]      # horn-probability per clip
 pred = (prob >= thr).astype(int)         # 1 = horn (= false alarm here)

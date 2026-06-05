@@ -1,0 +1,27 @@
+{
+  "name": "horn-analysis-backend",
+  "version": "0.1.0",
+  "description": "Node + TypeScript backend: consumes horn-events from Kafka.",
+  "type": "module",
+  "scripts": {
+    "server": "tsx src/server.ts",
+    "server:watch": "tsx watch src/server.ts",
+    "consumer": "tsx src/consumer.ts"
+  },
+  "dependencies": {
+    "cors": "^2.8.6",
+    "express": "^5.2.1",
+    "kafkajs": "^2.2.4",
+    "mongodb": "^7.2.0",
+    "redis": "^6.0.0",
+    "socket.io": "^4.8.3"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/node": "^22.10.2",
+    "socket.io-client": "^4.8.3",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

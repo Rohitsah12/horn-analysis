@@ -51,10 +51,10 @@ horn-analysis/
 | Phase | Goal | Status |
 |---|---|---|
 | 0 | Environment setup, folder scaffold | ✅ Day 1 (May 3, 2026) |
-| 1 | Python ML service standalone | ✅ Day 2 (Jun 1, 2026) — RF horn detector, F1 73%, 0 false alarms on MELAUDIS |
-| 2 | Add Kafka pipeline (Python → Node) | ⏳ |
-| 3 | Add MongoDB + Redis storage | ⏳ |
-| 4 | REST APIs + Socket.IO | ⏳ |
+| 1 | Python ML service standalone | ✅ Day 2 (Jun 4, 2026) — RF horn detector, F1 82.5%, 0 false alarms on MELAUDIS |
+| 2 | Add Kafka pipeline (Python → Node) | ✅ Day 3 — full Python→Kafka→Node loop, offset-resume verified |
+| 3 | Add MongoDB + Redis storage | ✅ Day 4 — consumer writes Mongo (history) + Redis (live state) |
+| 4 | REST APIs + Socket.IO | ✅ Day 5 — Express REST + Socket.IO live push, verified |
 | 5 | React dashboard (live feed, heatmap, charts) | ⏳ |
 | 6 | Insights, Horn Discipline Score, demo polish | ⏳ |
 

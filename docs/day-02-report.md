@@ -1,5 +1,5 @@
 # Day 2 Report — Phase 1: Python ML Service (Standalone)
-**Date:** 2026-06-01
+**Date:** 2026-06-04
 **Phase:** 1 (Standalone horn detector)
 **Status:** ✅ Working baseline detector trained and validated
 
@@ -33,6 +33,7 @@ Iterative improvement, each step driven by a reason:
 ### Bugs hit & fixed (real-pipeline lessons)
 - `librosa.delta` default window (9 frames) crashes on very short clips → added `_safe_delta` that shrinks the window to fit.
 - Importing `extract_features` ran the whole extraction → wrapped the script body in `if __name__ == "__main__":`. Shared the feature recipe via `fingerprint_from_audio()` so training/test/inference can't drift.
+- **Axis-convention bug:** `soundfile` returns stereo as `(samples, channels)` but `librosa.load(mono=False)` returns `(channels, samples)`. The mono-averaging assumed samples-first, so inference fed garbage features — invisible on negatives (default = not-horn), exposed only when a real horn scored 0.09. Fix: load inference audio with `mono=True`. Lesson: always test the POSITIVE class explicitly. Built `src/predict.py` (`HornDetector.predict_file -> {is_horn, confidence}`), verified: real horn → 0.94, dog bark → 0.00, Melbourne traffic → 0.01.
 
 ## Decisions made
 
