@@ -30,14 +30,15 @@ from predict import get_detector
 KAFKA_BROKER = "localhost:9092"
 TOPIC = "horn-events"
 
-# Approximate coordinates of the MELAUDIS recording sites (Melbourne).
+# Well-known high-traffic spots in Delhi (lat, lon).
 SITES = {
-    "Swanston": (-37.8136, 144.9631),
-    "Lygon": (-37.8000, 144.9670),
-    "Rathdowne": (-37.7980, 144.9700),
-    "Fitzroy": (-37.8000, 144.9780),
-    "Nicholson": (-37.8010, 144.9720),
-    "Hoddle": (-37.8060, 144.9870),
+    "Connaught Place": (28.6315, 77.2167),
+    "ITO": (28.6289, 77.2410),
+    "Karol Bagh": (28.6517, 77.1907),
+    "Chandni Chowk": (28.6562, 77.2301),
+    "AIIMS": (28.5672, 77.2100),
+    "Dhaula Kuan": (28.5916, 77.1610),
+    "Nehru Place": (28.5494, 77.2509),
 }
 
 

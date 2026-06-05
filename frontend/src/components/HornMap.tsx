@@ -8,13 +8,13 @@ import "leaflet/dist/leaflet.css";
 
 import type { HornEvent } from "../types.ts";
 
-const MELBOURNE: [number, number] = [-37.806, 144.967];
+const DELHI: [number, number] = [28.61, 77.21];
 
 export function HornMap({ events }: { events: HornEvent[] }) {
   return (
     <div className="panel map">
-      <h2>Horn map — Melbourne</h2>
-      <MapContainer center={MELBOURNE} zoom={14} className="leaflet">
+      <h2>Horn map — Delhi</h2>
+      <MapContainer center={DELHI} zoom={12} className="leaflet">
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution="© OpenStreetMap"
